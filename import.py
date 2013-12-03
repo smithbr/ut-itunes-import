@@ -1,12 +1,17 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-from bencode import *
+"""
+this script is crap but I
+don't feel like fixing it.
+"""
+
 import shutil
 import os
 import sys
 import time
 import tempfile
 
+from bencode import *
 
 base_dir = tempfile.gettempdir() + "\\ut-itunes-import"
 item_list = []
