@@ -1,7 +1,7 @@
-TorToTunes
+ut-itunes-import
 =========================
 
-TorToTunes is a simple script to import .mp3s from uTorrent to iTunes
+Import to iTunes from uTorrent
 
 On Windows:
 
