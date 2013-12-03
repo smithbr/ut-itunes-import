@@ -11,7 +11,7 @@ import tempfile
 base_dir = tempfile.gettempdir() + "\\ut-itunes-import"
 item_list = []
 file_count = 0
-file_types = [ '.mp3' ]
+file_types = ['.mp3',]
 
 
 if "--help" in str(sys.argv[1]).lower():
@@ -40,12 +40,8 @@ try:
 except Exception, e:
     raise Exception("Could not find resume.dat file! Message: %s" % str(e))
 
-
-
 try:
-
     for torrent in META_INFO_CONTENT.keys():
-
         item_list.append(torrent)
         THIS_TORRENTS_FILE_LIST = []
 
@@ -121,12 +117,8 @@ try:
 
                 print "---"
 
-
-
 except Exception, e:
     print "Error: Something went wrong. Message: %s" % str(e)
-
-
 
 finally:
     print "Closing resume.dat..."
