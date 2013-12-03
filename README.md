@@ -18,7 +18,7 @@ Open a command prompt.
 Navigate to project directory: `cd C:\ut-itunes-import`
 
 ### Usage
-        C:\> python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label (optional)]
+        C:\> python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label(s) (optional)]
 
 ### Help
 
