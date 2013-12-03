@@ -1,22 +1,27 @@
 ut-itunes-import
 =========================
 
-Import to iTunes from uTorrent
+Import to iTunes from µTorrent
 
-On Windows:
+## Prerequisites:
+* [Locate your iTunes library's Automatically Add to iTunes folder](http://support.apple.com/kb/HT3832 "Understanding the "Automatically Add to iTunes" folder")
+* Locate the resume.dat file (Usually found in `%appdata%\µTorrent`)
 
-1. Close µTorrent
-2. Locate your iTunes library's [Automatically Add to iTunes folder](http://support.apple.com/kb/HT3832 "Understanding the "Automatically Add to iTunes" folder") and
-uTorrent's resume.dat file.
-3. Open a command prompt and navigate to the ut-itunes-import directory
-4. Run the following command ([Label] is optional):
+## On Windows
 
-        C:\> python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label]
+Download a [copy](https://github.com/smithbr/mint-backup/archive/master.zip) of this repo and extract it to `C:\`
 
-    or
+Close µTorrent.
 
-        C:\> python import.py -h
-        Usage: python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder]
-        Optional arguments: [Label] filters by the specified label(s)
+Open a command prompt.
 
-Fork [the repository](https://github.com/smithbr/ut-itunes-import "ut-itunes-import") to start making your changes to the **master** branch.
+Navigate to project directory: `cd C:\ut-itunes-import`
+
+### Usage
+        C:\> python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label (optional)]
+
+### Help
+
+        C:\> python import.py --help
+        Usage: python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label(s) (optional)]
+        Optional arguments: [Label] only import files with specified label(s)

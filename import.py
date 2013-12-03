@@ -8,16 +8,23 @@ import time
 import tempfile
 
 
-USAGE = """USAGE: python tortotunes.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder]
-OPTIONAL ARGUMENTS: [Label] filters by the specified label(s)"""
+base_dir = tempfile.gettempdir() + "\\ut-itunes-import"
+item_list = []
+file_count = 0
+file_types = [ '.mp3' ]
 
-if "-H" in str(sys.argv[1]).upper():
-    print USAGE
+
+if "--help" in str(sys.argv[1]).lower():
+    print """ Usage: python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label(s) (optional)]
+              Optional arguments: [Label] only import files with specified label(s)"""
     sys.exit()
-elif not os.path.isfile(str(sys.argv[1]).replace("\\","\\\\")) or not os.path.isdir(sys.argv[2]):
-    raise Exception("""Path does not exist! Please check your resume.dat and
-        Add to iTunes folder paths are correct.""")
-    sys.exit()
+
+if not os.path.isfile(str(sys.argv[1]).replace("\\","\\\\")) \
+    or not os.path.isdir(sys.argv[2]):
+        raise AssertionError("""Path does not exist. Please check your 
+                                resume.dat and Add to iTunes folder paths 
+                                are correct.""")
+        sys.exit()
 else:
     RESUME_DAT = sys.argv[1]
     ADD_TO_ITUNES_FOLDER = sys.argv[2]
@@ -26,16 +33,6 @@ else:
         CUSTOM_LABELS = sys.argv[3]
     except:
         pass
-
-
-
-TEMP_DIRECTORY = tempfile.gettempdir() + "\\tortotunes"
-FULL_LIST_OF_TORRENTS = []
-FILE_COUNT = 0
-TEMP_MSG = []
-FILE_TYPES = [ '.mp3' ]
-
-
 
 try:
     META_INFO_FILE = open(RESUME_DAT, 'rb')
@@ -49,11 +46,11 @@ try:
 
     for torrent in META_INFO_CONTENT.keys():
 
-        FULL_LIST_OF_TORRENTS.append(torrent)
+        item_list.append(torrent)
         THIS_TORRENTS_FILE_LIST = []
 
         if torrent == 'rec' or torrent == '.fileguard':
-            FULL_LIST_OF_TORRENTS.remove(torrent)
+            item_list.remove(torrent)
         else:
             if META_INFO_CONTENT[torrent]['labels'] == [] and META_INFO_CONTENT[torrent]['completed_on'] > 0:
 
@@ -62,7 +59,7 @@ try:
                 print "[uTorrent metadata] Path: %s" % str(META_INFO_CONTENT[torrent]['path'])
                 print "[uTorrent metadata] Completed: %s" % str(META_INFO_CONTENT[torrent]['completed_on'])
 
-                FINISHED_FOLDER_PATH = str(TEMP_DIRECTORY + str(torrent.strip(".torrent")))
+                FINISHED_FOLDER_PATH = str(base_dir + str(torrent.strip(".torrent")))
 
                 print "Source: %s" % META_INFO_CONTENT[torrent]['path']
                 print "Destination %s" % FINISHED_FOLDER_PATH
@@ -70,7 +67,7 @@ try:
 
                 if not os.path.isdir(FINISHED_FOLDER_PATH):
                     try:
-                        print "Copying the folder to %s..." % str(TEMP_DIRECTORY)
+                        print "Copying the folder to %s..." % str(base_dir)
                         shutil.copytree(META_INFO_CONTENT[torrent]['path'], FINISHED_FOLDER_PATH)
                         print "Copy finished."
                     except Exception, e:
@@ -80,24 +77,24 @@ try:
                 else:
                     print "Destination directory already exists. Skipping copy..."
 
-                print "Scanning for file types %s..." + str(FILE_TYPES)
+                print "Scanning for file types %s..." + str(file_types)
 
                 any_mp3s_in_here = False
 
                 for media_file in os.listdir(FINISHED_FOLDER_PATH):
-                    for filetype in FILE_TYPES:
+                    for filetype in file_types:
                         if media_file[-4:] == filetype:
                             ADD_TO_ITUNES_SOURCE_FILE = str(FINISHED_FOLDER_PATH + "\\" + media_file)
                             THIS_TORRENTS_FILE_LIST.append(ADD_TO_ITUNES_SOURCE_FILE)
                             any_mp3s_in_here = True
-                            FILE_COUNT += 1
+                            file_count += 1
 
-                print "Found %s %s files..." % (str(FILE_COUNT), str(FILE_TYPES))
+                print "Found %s %s files..." % (str(file_count), str(file_types))
 
                 if not THIS_TORRENTS_FILE_LIST == []:
                     print str(THIS_TORRENTS_FILE_LIST)
 
-                if not FILE_COUNT > 0:
+                if not file_count > 0:
                     print "Skipping copy..."
                 else:
                     print "Copying files to %s" + str(ADD_TO_ITUNES_FOLDER)
@@ -137,10 +134,7 @@ finally:
     print "Closed."
     print "Cleaning up leftover files..."
     try:
-        shutil.rmtree(TEMP_DIRECTORY)
+        shutil.rmtree(base_dir)
     except:
         pass
-    print "Done."
-    print ""
-    print "---"
-    print "All done!"
+    print "All done."
