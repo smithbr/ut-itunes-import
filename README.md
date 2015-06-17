@@ -9,13 +9,11 @@ Import to iTunes from µTorrent
 
 ## On Windows
 
-Download a [copy](https://github.com/smithbr/mint-backup/archive/master.zip) of this repo and extract it to `C:\`
+Download a [copy](https://github.com/smithbr/mint-backup/archive/master.zip) of this repo
 
 Close µTorrent.
 
-Open a command prompt.
-
-Navigate to project directory: `cd C:\ut-itunes-import`
+Open a command prompt and navigate to extracted directory: `cd C:\ut-itunes-import`
 
 ### Usage
         C:\> python import.py [Path_to_resume.dat] [Path_to_Add_to_iTunes_folder] [Label(s) (optional)]
